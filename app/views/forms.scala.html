@@ -1,0 +1,87 @@
+@import beans.FormRequest
+@(formRequest: Form[FormRequest])
+
+@main("Index") {
+    <link href="@routes.Assets.versioned("stylesheets/formview.css")" rel="stylesheet">
+
+    <nav class="bg-deepblue navbar fixed-top navbar-toggleable-md navbar-light" id="mainNav">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarExample" aria-controls="navbarExample" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="container">
+            <a class="navbar-brand" href="/">Mocker</a>
+            <div class="collapse navbar-collapse" id="navbarExample">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div id="wrapper">
+        <div class="container-fluid">
+            @if(flash.containsKey("success")) {
+                <div class="row">
+                    <div class="col-lg-12 extra-padding">
+                        <div class="alert alert-success alert-dismissable">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                            <i class="fa fa-info-circle"></i> @flash.get("success")
+                        </div>
+                    </div>
+                </div>
+            }
+            @if(flash.containsKey("conflict")) {
+                <div class="row">
+                    <div class="col-lg-12 extra-padding">
+                        <div class="alert alert-warning alert-dismissable">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                            <i class="fa fa-info-circle"></i> @flash.get("conflict")
+                        </div>
+                    </div>
+                </div>
+            }
+            @if(flash.containsKey("error")) {
+                <div class="row">
+                    <div class="col-lg-12 extra-padding">
+                        <div class="alert alert-danger alert-dismissable">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                            <i class="fa fa-info-circle"></i> @flash.get("error")
+                        </div>
+                    </div>
+                </div>
+            }
+            <div class="row">
+                <div class="col-lg-12 extra-padding">
+                    <div class="panel panel-turquoise">
+                        <div class="panel-heading">
+                            <h3 class="panel-title"><i class="fa fa-leaf"></i> Generate Mock</h3>
+                        </div>
+                        <div class="panel-body">
+                            @helper.form(routes.MockGenerator.generateMockFromForm(), 'class -> "form") {
+                                @fieldset(formRequest)
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+            function changeTextBoxState()
+            {
+                if (document.getElementById("requestType").value === "GET") {
+                    document.getElementById("requestBody").hidden=true;
+                    document.getElementById("Request Body").hidden=true;
+                } else {
+                    document.getElementById("requestBody").hidden=false;
+                    document.getElementById("Request Body").hidden=false;
+                }
+            }
+    </script>
+
+        <!-- Bootstrap core JavaScript -->
+    <script src="@routes.Assets.versioned("javascripts/jquery.min.js")" type="text/javascript"></script>
+    <script src="@routes.Assets.versioned("javascripts/bootstrap.min.js")" type="text/javascript"></script>
+}

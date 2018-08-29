@@ -1,0 +1,11 @@
+@(field: Field, rows: String = "6", label: String = "CHANGEME", placeholder: String = "")
+
+<div class="form-group @if(field.hasErrors) {has-error}">
+    <label id="@label">@label</label>
+    <textarea class="form-control"
+    rows="@rows"
+    id="@field.id"
+    name="@field.name"
+    placeholder="@placeholder"
+    >@field.value.getOrElse("")</textarea>
+</div>

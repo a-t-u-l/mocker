@@ -1,0 +1,12 @@
+@(field: Field, label: String = "CHANGEME")
+
+<div class="form-group @if(field.hasErrors) {has-error}">
+  <label for="@field.id">@label</label>
+  <select
+  class="form-control"
+  id="@field.id"
+  name="@field.name" onChange="changeTextBoxState();">
+    <option>POST</option>
+    <option>GET</option>
+  </select>
+</div>

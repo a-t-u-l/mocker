@@ -1,0 +1,28 @@
+@(mockRequest: Form[beans.FormRequest])
+
+@import views.html.bootstrap3
+
+<fieldset>
+    @bootstrap3.select(mockRequest("requestType"),
+        label = "Request Type")
+
+    @bootstrap3.text(mockRequest("URL"),
+        label = "PATH",
+        placeholder = "Mock API Path")
+
+    @bootstrap3.textarea(mockRequest("requestBody"),
+        rows = "6",
+        label = "Request Body",
+        placeholder = "Request JSON")
+
+    @bootstrap3.text(mockRequest("responseStatusCode"),
+        label = "CODE",
+        placeholder = "Response Status Code")
+
+    @bootstrap3.textarea(mockRequest("responseBody"),
+        rows = "6",
+        label = "Response Body",
+        placeholder = "Response JSON")
+
+    <button id="submit" type="submit" value="Submit" class="btn btn-default bg-deepblue color-light">Submit</button>
+</fieldset>

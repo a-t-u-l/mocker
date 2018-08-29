@@ -1,0 +1,141 @@
+@(error: Integer)
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>@error Error</title>
+
+        <link rel="stylesheet" href="@routes.Assets.versioned("error/style/main.css")" type="text/css">
+        <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/modal.css")">
+        <link rel="stylesheet" href="@routes.Assets.versioned("error/style/error.css")">
+        <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/bootstrap.min.css")">
+        <link rel="shortcut icon" href="@routes.Assets.versioned("images/favicon.png")">
+
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="320">
+        <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0, maximum-scale=1, user-scalable=no, minimal-ui">
+    </head>
+    <body>
+        <div>
+
+            <nav class="navbar navbar-toggleable-md navbar-light" id="mainNav">
+                <div class="container">
+                    <a class="navbar-brand" href="/">Mocker</a>
+                    <div class="collapse navbar-collapse" id="navbarExample">
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="/#contact">Contact</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <hr>
+            <div class="error">
+                <h3 class="error__title w3-text-blue-gray">ERROR CODE</h3>
+                <div class="error__code">
+                    <h1 class="content__header content__header--strong w3-text-shadow">@error</h1>
+                </div>
+            </div>
+            <hr>
+            <div class="message">
+                <div class="content">
+                    <h1 class="content__header w3-text-shadow w3-text-blue-gray">Duh!</h1>
+                    <hr>
+                    <h1 class="content__header w3-text-shadow">IT SEEMS YOU</h1>
+                    <h1 class="content__header w3-text-shadow">ARE</h1>
+                    <h1 class="content__header content__header--strong w3-text-shadow w3-text-red">LOST.</h1>
+
+                    <hr>
+                    <h3 class="content__header w3-text-shadow">Go back</h3>
+                    <h4 class="content__header w3-text-shadow">Or</h4>
+                    <h4 class="content__header">
+                        <a class="w3-text-teal" onclick="document.getElementById('error').style.display='block'">Have some fun <3</a>
+                    </h4>
+                    <hr>
+                </div>
+            </div>
+        </div>
+        <div id="error" class="w3-modal">
+            <div class="w3-modal-content w3-animate-zoom w3-card-16">
+                <header class="w3-container">
+                    <nav class="navbar navbar-toggleable-md navbar-light" id="mainNav">
+                        <div class="container">
+                            <a class="navbar-brand" href="/">Mocker</a>
+                        </div>
+                    </nav>
+                </header>
+                <div class="w3-container w3-light-grey">
+                    <div class="heading">
+                        <h1 class="title">2048</h1>
+                        <div class="scores-container">
+                            <div class="score-container">0</div>
+                            <div class="best-container">0</div>
+                        </div>
+                    </div>
+
+                    <div class="above-game">
+                        <p class="game-intro">Join the numbers and get to the <strong>2048 tile!</strong></p>
+                        <a class="restart-button">New Game</a>
+                    </div>
+
+                    <div class="game-container">
+                        <div class="game-message">
+                            <p></p>
+                            <div class="lower">
+                                <a class="keep-playing-button">Keep going</a>
+                                <a class="retry-button">Try again</a>
+                            </div>
+                        </div>
+
+                        <div class="grid-container">
+                            <div class="grid-row">
+                                <div class="grid-cell"></div>
+                                <div class="grid-cell"></div>
+                                <div class="grid-cell"></div>
+                                <div class="grid-cell"></div>
+                            </div>
+                            <div class="grid-row">
+                                <div class="grid-cell"></div>
+                                <div class="grid-cell"></div>
+                                <div class="grid-cell"></div>
+                                <div class="grid-cell"></div>
+                            </div>
+                            <div class="grid-row">
+                                <div class="grid-cell"></div>
+                                <div class="grid-cell"></div>
+                                <div class="grid-cell"></div>
+                                <div class="grid-cell"></div>
+                            </div>
+                            <div class="grid-row">
+                                <div class="grid-cell"></div>
+                                <div class="grid-cell"></div>
+                                <div class="grid-cell"></div>
+                                <div class="grid-cell"></div>
+                            </div>
+                        </div>
+
+                        <div class="tile-container">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="@routes.Assets.versioned("error/js/bind_polyfill.js")"></script>
+        <script src="@routes.Assets.versioned("error/js/classlist_polyfill.js")"></script>
+        <script src="@routes.Assets.versioned("error/js/animframe_polyfill.js")"></script>
+        <script src="@routes.Assets.versioned("error/js/keyboard_input_manager.js")"></script>
+        <script src="@routes.Assets.versioned("error/js/html_actuator.js")"></script>
+        <script src="@routes.Assets.versioned("error/js/grid.js")"></script>
+        <script src="@routes.Assets.versioned("error/js/tile.js")"></script>
+        <script src="@routes.Assets.versioned("error/js/local_storage_manager.js")"></script>
+        <script src="@routes.Assets.versioned("error/js/game_manager.js")"></script>
+        <script src="@routes.Assets.versioned("error/js/application.js")"></script>
+        <script type="text/javascript">
+		function loadModal(){
+            document.getElementById('error').style.display='block';
+        }
+	</script>
+    </body>
+</html>

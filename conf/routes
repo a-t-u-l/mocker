@@ -1,0 +1,22 @@
+# Routes
+#AUTO GENERATED FILE. DO NOT EDIT.
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+GET     /                           controllers.HomeController.index
+POST    /generate                   controllers.MockGenerator.generateMock()
+GET     /generated/list             controllers.MappingController.getResultContainer()
+GET     /generator                  controllers.MockGenerator.generateMockForm()
+POST    /generator                  controllers.MockGenerator.generateMockFromForm()
+GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+POST	/get/details				controllers.MockedAPIController.getMappedResponseForPostCall()
+POST	/get/test					controllers.MockedAPIController.getMappedResponseForPostCall()
+GET		/get/test					controllers.MockedAPIController.getMappedResponseForGetCall()
+GET		/test					    controllers.MockedAPIController.getMappedResponseForGetCall()
+GET		/info					    controllers.MockedAPIController.getMappedResponseForGetCall()
+
+GET			/notification					controllers.MockedAPIController.getMappedResponseForGetCall()
+GET			/login					controllers.MockedAPIController.getMappedResponseForGetCall()
+GET			/v4/cities					controllers.MockedAPIController.getMappedResponseForGetCall()
+POST			/demo/post					controllers.MockedAPIController.getMappedResponseForPostCall()
+GET			/abcd					controllers.MockedAPIController.getMappedResponseForGetCall()
+POST			/gettoken					controllers.MockedAPIController.getMappedResponseForPostCall()

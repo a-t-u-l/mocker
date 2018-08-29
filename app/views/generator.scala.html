@@ -1,0 +1,16 @@
+@*
+* This template takes a single argument, a String containing a
+* message to display.
+*@
+@import beans.FormRequest
+@(newForm: Form[FormRequest])
+
+@main("Svatah Mock Server") {
+
+    @*
+    * Get an `Html` object by calling the built-in Play welcome
+    * template and passing a `String` message.
+    *@
+    @forms(newForm)
+
+}

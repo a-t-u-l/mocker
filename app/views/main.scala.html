@@ -1,0 +1,36 @@
+@*
+ * This template is called from the `index` template. This template
+ * handles the rendering of the page header and body tags. It takes
+ * two arguments, a `String` for the title of the page and an `Html`
+ * object to insert into the body of the page.
+ *@
+@(title: String)(content: Html)
+
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Mock API framework">
+    <meta name="author" content="atul sharma">
+    <title>Mocker</title>
+        <!-- Bootstrap core CSS -->
+    <link href="@routes.Assets.versioned("stylesheets/bootstrap.min.css")" rel="stylesheet">
+        <!-- Custom fonts for this template -->
+    <link href="@routes.Assets.versioned("stylesheets/font-awesome.min.css")" rel="stylesheet" type="text/css">
+        <!-- Plugin CSS -->
+    <link href="@routes.Assets.versioned("stylesheets/magnific-popup.css")" rel="stylesheet">
+        <!-- Custom styles for this template -->
+    <link href="@routes.Assets.versioned("stylesheets/creative.css")" rel="stylesheet">
+    <link rel="shortcut icon" href="@routes.Assets.versioned("images/favicon.png")">
+
+</head>
+
+<body id="page-top">
+    @* And here's where we render the `Html` object containing
+    * the page content. *@
+    @content
+</body>
+</html>

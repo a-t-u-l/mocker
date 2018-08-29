@@ -1,0 +1,90 @@
+body {
+  font-family: 'Montserrat', sans-serif;
+  margin: 0;
+  width: 100%;
+  height: 100vh;
+  display: block;
+  background-color: #ffffff;
+@include filter-gradient(#f8fff3, #085078, horizontal);
+  $experimental-support-for-svg: true;
+@include background-image(radial-gradient(ellipse farthest-side at 100% 100%, #f8fff3 10%,#85d8ce 50%,#85d8ce 50%,#85d8ce 50%,#85d8ce 50%));
+}
+
+.message {
+  font-family: 'Montserrat', sans-serif;
+  text-align: center;
+  width: 60vh;
+  margin: 5vw auto 0 auto;
+  display: block;
+  border: 10px solid black;
+  padding: 2em 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.overlay {
+  content: "1";
+  background-color: white;
+  width: 100vh;
+  height: 100vw;
+  display: block;
+  position: absolute;
+  margin: -4em;
+  z-index: 1;
+  opacity: .5;
+}
+
+.content {
+  position: relative;
+  z-index: 2;
+  line-height: 2.5em;
+
+&__header{
+   margin: 0;
+   font-size: 2.5em;
+   font-weight: 400;
+
+&--strong{
+   font-weight: 700;
+   text-shadow: 5px 6px 0 rgba(0, 0, 0, 0.2);
+ }
+
+&:first-of-type {
+   font-weight: 700;
+   display: inline-block;
+   border-bottom: 2px solid black;
+   margin-bottom: 0.5em;
+ }
+}
+}
+
+.error {
+  text-align: center;
+  margin: 0 auto;
+  display: block;
+
+&__code {
+   font-family: 'Cabin', sans-serif;
+   display: inline-block;
+   border-bottom: 5px solid #3dfea0;
+   padding: 10px 40px;
+   background-color: white;
+
+h2 {
+  margin: 0;
+  color: #1f1f1f;
+}
+}
+&__title {
+   font-family: 'Cabin', sans-serif;
+   margin-bottom: 2px;
+ }
+}
+
+.contact-mail {
+  margin: 10px;
+  text-align: center;
+a {
+  color: #efefef;
+}
+}
