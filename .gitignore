@@ -1,7 +1,6 @@
 logs
 target
 test
-sbt-dist
 project
 /.idea
 /.idea_modules
