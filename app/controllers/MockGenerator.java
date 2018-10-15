@@ -174,16 +174,24 @@ public class MockGenerator extends Controller {
                 MockResponse response=new MockResponse("Mapping Already exist. Use following identifier to access your mocked API",false,url.getUri(),body);
                 return status(Constant.STATUS_CONFLICT.asInteger(), Json.toJson(response));
             }
-            else
-                mappingHolder.setResultMapping(url.getUri() + body, String.valueOf(request.getResponseStatusCode()), request.getResponseBody());
+            else {
+                if(request.getHeaders() != null && !request.getHeaders().isEmpty())
+                    mappingHolder.setResultMapping(url.getUri(), body, request.getHeaders(), String.valueOf(request.getResponseStatusCode()), request.getResponseBody());
+                else
+                    mappingHolder.setResultMapping(url.getUri(), body, String.valueOf(request.getResponseStatusCode()), request.getResponseBody());
+            }
         }
         else {
             if(mappingHolder.mappingExists(url.getUri())) {
                 MockResponse response=new MockResponse("Mapping Already exist. Use following identifier to access your mocked API",false,url.getUri(),body);
                 return status(Constant.STATUS_CONFLICT.asInteger(), Json.toJson(response));
             }
-            else
-                mappingHolder.setResultMapping(url.getUri(), String.valueOf(request.getResponseStatusCode()), request.getResponseBody());
+            else{
+                if(request.getHeaders() != null && !request.getHeaders().isEmpty())
+                    mappingHolder.setResultMapping(url.getUri(), request.getHeaders(), String.valueOf(request.getResponseStatusCode()), request.getResponseBody());
+                else
+                    mappingHolder.setResultMapping(url.getUri(), String.valueOf(request.getResponseStatusCode()), request.getResponseBody());
+            }
         }
         ResultMappingHolder object = ResultMappingHolder.getInstance();
         String filename = Constant.FILE_SERIALIZE.value();

@@ -20,3 +20,5 @@ GET			/v4/cities					controllers.MockedAPIController.getMappedResponseForGetCall
 POST			/demo/post					controllers.MockedAPIController.getMappedResponseForPostCall()
 GET			/abcd					controllers.MockedAPIController.getMappedResponseForGetCall()
 POST			/gettoken					controllers.MockedAPIController.getMappedResponseForPostCall()
+GET			/gettoken					controllers.MockedAPIController.getMappedResponseForGetCall()
+GET			/distance					controllers.MockedAPIController.getMappedResponseForGetCall()

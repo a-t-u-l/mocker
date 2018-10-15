@@ -16,7 +16,7 @@ public class MockRequest {
     private String URI;
     private List<PathParamEntity> pathParams=new ArrayList<>();
     private Map<String,String> queryParams= new HashMap<>();
-    private Map<String,String> headers= new HashMap<>();
+    private Map<String,String []> headers= new HashMap<>();
     private String requestBody="";
     private String responseBody="";
     private int responseStatusCode =200;
@@ -24,7 +24,7 @@ public class MockRequest {
     public MockRequest() {
     }
 
-    public MockRequest(String requestType, String URI, Map<String, String> queryParams, Map<String, String> headers, String requestBody, String responseBody, int responseStatusCode) {
+    public MockRequest(String requestType, String URI, Map<String, String> queryParams, Map<String, String []> headers, String requestBody, String responseBody, int responseStatusCode) {
         this.requestType = requestType;
         this.URI = URI;
         this.queryParams = queryParams;
@@ -34,7 +34,7 @@ public class MockRequest {
         this.responseStatusCode = responseStatusCode;
     }
 
-    public MockRequest(String requestType, String URI, List<PathParamEntity> pathParams, Map<String, String> queryParams, Map<String, String> headers, String requestBody, String responseBody, int responseStatusCode) {
+    public MockRequest(String requestType, String URI, List<PathParamEntity> pathParams, Map<String, String> queryParams, Map<String, String []> headers, String requestBody, String responseBody, int responseStatusCode) {
         this.requestType = requestType;
         this.URI = URI;
         this.pathParams = pathParams;
@@ -77,7 +77,7 @@ public class MockRequest {
         this.queryParams = queryParams;
     }
 
-    public Map<String, String> getHeaders() {
+    public Map<String, String []> getHeaders() {
         return headers;
     }
 

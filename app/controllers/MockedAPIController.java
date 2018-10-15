@@ -26,7 +26,11 @@ public class MockedAPIController extends Controller {
         ActionMappingEntity actionData=requestObject.getActionMappingEntity();
         Debugger.console("Map : "+ResultMappingHolder.getInstance().toString());
         Debugger.console("uri : "+actionData.getUri());
-        String [] response=ResultMappingHolder.getInstance().getResultMapping(actionData.getUri());
+        String [] response;
+        if(actionData.getHeaders()!=null && !actionData.getHeaders().isEmpty())
+            response = ResultMappingHolder.getInstance().getResultMapping(actionData.getUri(), actionData.getHeaders());
+        else
+            response = ResultMappingHolder.getInstance().getResultMapping(actionData.getUri());
         if(response==null) {
             MockResponse mockResponse=new MockResponse("No Constant mapped to URI.",actionData.getUri());
             return notFound(Json.toJson(mockResponse));
@@ -40,7 +44,11 @@ public class MockedAPIController extends Controller {
         String body=""+actionData.getJsonBody();
         if(body==null || body.equalsIgnoreCase("null"))
             body="";
-        String [] response=ResultMappingHolder.getInstance().getResultMapping(actionData.getUri()+body);
+        String [] response;
+        if(actionData.getHeaders()!=null && !actionData.getHeaders().isEmpty())
+            response = ResultMappingHolder.getInstance().getResultMapping(actionData.getUri(), body, actionData.getHeaders());
+        else
+            response = ResultMappingHolder.getInstance().getResultMapping(actionData.getUri(), body);
         if(response==null){
             MockResponse mockResponse=new MockResponse("No Constant mapped to URI.",actionData.getUri());
             return notFound(Json.toJson(mockResponse));

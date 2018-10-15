@@ -19,17 +19,8 @@ public class MappingController extends Controller {
     public MappingController(){
     }
 
-    public static void clearResult(){
-        Map<String, String[]> mappingHolder= ResultMappingHolder.getInstance().getResultMapping();
-        for(String key: mappingHolder.keySet()) {
-            if(key.contains("/facebook/data["))
-                mappingHolder.remove(key);
-        }
-    }
-
     //TODO: Add requestType:{GET,POST etc} in response body
     public Result getResultContainer(){
-        clearResult();
         ResultMappingHolder resultMappingHolder=ResultMappingHolder.getInstance();
         String mapping="{ \"mockedApiList\" : [";
         for(String key : resultMappingHolder.getResultMapping().keySet()){
