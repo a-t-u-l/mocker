@@ -18,42 +18,31 @@ import javax.inject.Inject;
 public class MockedAPIController extends Controller {
 
     @Inject
-    public MockedAPIController(){
+    public MockedAPIController() {
     }
 
-    public Result getMappedResponseForGetCall(){
-        RequestMappingHolder requestObject=RequestMappingHolder.getInstance();
-        ActionMappingEntity actionData=requestObject.getActionMappingEntity();
-        Debugger.console("Map : "+ResultMappingHolder.getInstance().toString());
-        Debugger.console("uri : "+actionData.getUri());
-        String [] response;
-        if(actionData.getHeaders()!=null && !actionData.getHeaders().isEmpty())
-            response = ResultMappingHolder.getInstance().getResultMapping(actionData.getUri(), actionData.getHeaders());
-        else
-            response = ResultMappingHolder.getInstance().getResultMapping(actionData.getUri());
-        if(response==null) {
-            MockResponse mockResponse=new MockResponse("No Constant mapped to URI.",actionData.getUri());
+    public Result getMappedResponseForGetCall() {
+        RequestMappingHolder requestObject = RequestMappingHolder.getInstance();
+        ActionMappingEntity actionData = requestObject.getActionMappingEntity();
+        Debugger.console("Map : " + ResultMappingHolder.getInstance().toString());
+        Debugger.console("uri : " + actionData.getUri());
+        String[] response = ResultMappingHolder.getInstance().getResultMapping(actionData);
+        if (response == null) {
+            MockResponse mockResponse = new MockResponse("No Constant mapped to URI.", null, actionData.getUri(), actionData.getHeaders());
             return notFound(Json.toJson(mockResponse));
         }
-        return status(Integer.parseInt(response[0]),response[1]).as(Constant.APPLICATION_JSON.value());
+        return status(Integer.parseInt(response[0]), response[1]).as(Constant.APPLICATION_JSON.value());
     }
 
-    public Result getMappedResponseForPostCall(){
-        RequestMappingHolder requestObject=RequestMappingHolder.getInstance();
-        ActionMappingEntity actionData=requestObject.getActionMappingEntity();
-        String body=""+actionData.getJsonBody();
-        if(body==null || body.equalsIgnoreCase("null"))
-            body="";
-        String [] response;
-        if(actionData.getHeaders()!=null && !actionData.getHeaders().isEmpty())
-            response = ResultMappingHolder.getInstance().getResultMapping(actionData.getUri(), body, actionData.getHeaders());
-        else
-            response = ResultMappingHolder.getInstance().getResultMapping(actionData.getUri(), body);
-        if(response==null){
-            MockResponse mockResponse=new MockResponse("No Constant mapped to URI.",actionData.getUri());
+    public Result getMappedResponseForPostCall() {
+        RequestMappingHolder requestObject = RequestMappingHolder.getInstance();
+        ActionMappingEntity actionData = requestObject.getActionMappingEntity();
+        String[] response = ResultMappingHolder.getInstance().getResultMapping(actionData);
+        if (response == null) {
+            MockResponse mockResponse = new MockResponse("No Constant mapped to URI.", null, actionData.getUri(), actionData.getHeaders());
             return notFound(Json.toJson(mockResponse));
         }
-        return status(Integer.parseInt(response[0]),response[1]).as(Constant.APPLICATION_JSON.value());
+        return status(Integer.parseInt(response[0]), response[1]).as(Constant.APPLICATION_JSON.value());
     }
 
     //TODO: Add support for more types of HTTP Request e.g. PUT, DELETE etc

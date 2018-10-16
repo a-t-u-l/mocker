@@ -30,7 +30,7 @@ public enum Constant {
     METHOD_MAPPING_POST_CALL("controllers.MockedAPIController.getMappedResponseForPostCall()"),
 
     /****** FILE PATH **********/
-    FILE_SERIALIZE("target/file.txt"),
+    FILE_SERIALIZE("target/mocker.container"),
     FILE_ROUTE("conf/routes"),
 
     /********* SPECIAL CHAR **************/

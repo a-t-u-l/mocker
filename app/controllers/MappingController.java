@@ -1,13 +1,14 @@
 package controllers;
 
+import com.google.gson.Gson;
 import core.Constant;
 import core.ResultMappingHolder;
-import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import utils.FileUtils;
 
 import javax.inject.Inject;
+import java.util.Arrays;
 import java.util.Map;
 
 /**
@@ -15,29 +16,37 @@ import java.util.Map;
  */
 public class MappingController extends Controller {
 
+    private Gson gson = new Gson();
+
     @Inject
-    public MappingController(){
+    public MappingController() {
     }
 
-    //TODO: Add requestType:{GET,POST etc} in response body
-    public Result getResultContainer(){
-        ResultMappingHolder resultMappingHolder=ResultMappingHolder.getInstance();
-        String mapping="{ \"mockedApiList\" : [";
-        for(String key : resultMappingHolder.getResultMapping().keySet()){
+    public Result getResultContainer() {
+        ResultMappingHolder resultMappingHolder = ResultMappingHolder.getInstance();
+        String mapping = "{ \"mockedApiList\" : [";
+        for (String mockId : resultMappingHolder.getMockIdVsResultKeyMap().keySet()) {
             String path;
-            String requestBody=null;
-            if(key.indexOf("{")>key.length() || key.indexOf("{")==-1)
-                path = key;
+            String requestBody = null;
+            String resultMapKey = resultMappingHolder.getMockIdVsResultKeyMap().get(mockId);
+            if (resultMapKey.indexOf("{") > resultMapKey.length() || !resultMapKey.contains("{"))
+                path = resultMapKey;
             else {
-                path = key.substring(0, key.indexOf("{"));
-                requestBody = key.substring(key.indexOf("{"),key.length());
+                path = resultMapKey.substring(0, resultMapKey.indexOf("{"));
+                requestBody = mockId.substring(resultMapKey.indexOf("{"), resultMapKey.length());
             }
-            String [] response=resultMappingHolder.getResultMapping(key);
-            mapping=mapping+"{\"requestPath\":\""+path+"\","+"\"requestBody\":"+requestBody+","+"\"responseStatus\":"
-                    +response[0]+","+"\"responseBody\":"+response[1]+"},";
+            String[] response = resultMappingHolder.getResultForMockId(mockId);
+            Map<String, String[]> headers = resultMappingHolder.getHeadersForMockId(mockId);
+            mapping = mapping
+                    + "{\"requestPath\":\"" + path + "\","
+                    + "\"requestHeaders\": " + gson.toJson(headers) + ","
+                    + "\"mockId\": \"" + mockId + "\","
+                    + "\"requestBody\":" + requestBody + ","
+                    + "\"responseStatus\":" + response[0] + ","
+                    + "\"responseBody\":" + response[1] + "},";
         }
-        mapping=FileUtils.replaceLast(mapping,",","");
-        mapping=mapping+"]}";
+        mapping = FileUtils.replaceLast(mapping, ",", "");
+        mapping = mapping + "]}";
         return ok(mapping).as(Constant.APPLICATION_JSON.value());
     }
 }

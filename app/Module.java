@@ -1,10 +1,7 @@
 import beans.RouteMappingEntity;
 import com.google.inject.AbstractModule;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.ObjectInputStream;
+import java.io.*;
 import java.time.Clock;
 import java.util.List;
 
@@ -47,14 +44,14 @@ public class Module extends AbstractModule {
         ResultMappingHolder object;
 
         String filename = Constant.FILE_SERIALIZE.value();
-        Debugger.console("READING DATA FROM FILE : "+filename);
+        Debugger.console("READING DATA FROM CONTAINER : "+filename);
         FileInputStream file;
         try{
-            file = new FileInputStream(filename);
+            file = new FileInputStream(new File(filename));
         }
         catch(FileNotFoundException ex)
         {
-            Debugger.console("File Not found");
+            Debugger.console("Container Not found.");
             Debugger.console("------------------------------------------------");
             return;
         }
@@ -80,6 +77,8 @@ public class Module extends AbstractModule {
         }
         ResultMappingHolder holder=ResultMappingHolder.getInstance();
         holder.setResultMapping(object.getResultMapping());
+        holder.setHeaderStore(object.getHeaderStore());
+        holder.setMockIdVsResultKeyMap(object.getMockIdVsResultKeyMap());
         Debugger.console("******************MAPPING*******************");
         Debugger.console(holder.toString());
         try {
