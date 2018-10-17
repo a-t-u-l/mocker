@@ -144,18 +144,32 @@ public class MockGenerator extends Controller {
         String fullMethodPath;
         try {
             if (request.getRequestType().equalsIgnoreCase(Constant.GET.value())) {
-                fullMethodPath = Constant.METHOD_MAPPING_GET_CALL.value();
+                if(url.getPath().contains(":")) {
+                    String [] pathVarArr = url.getPath().split("/");
+                    String path = "";
+                    int count = 1;
+                    for(String var : pathVarArr){
+                        if(var.startsWith(":")) {
+                            var = ":var"+count;
+                            count++;
+                        }
+                        path = path.concat(var).concat("/");
+                    }
+                    url.setPath(FileUtils.replaceLast(path, "/", ""));
+                    if(count==2)
+                        fullMethodPath = Constant.METHOD_MAPPING_ONE_PARAM_GET_CALL.value();
+                    else if(count==3)
+                        fullMethodPath = Constant.METHOD_MAPPING_TWO_PARAM_GET_CALL.value();
+                    else if(count==4)
+                        fullMethodPath = Constant.METHOD_MAPPING_THREE_PARAM_GET_CALL.value();
+                    else
+                        throw new IOException("Currently only three variable path params are supported.");
+                }
+                else
+                    fullMethodPath = Constant.METHOD_MAPPING_GET_CALL.value();
                 if (!routeMappingHolder.lookUp(Constant.GET.value(), url.getPath())) {
                     FileUtils.appendInFile(Constant.GET.value() + Constant.TAB.repeat(2) + url.getPath() + Constant.TAB.repeat(4) + fullMethodPath, Constant.FILE_ROUTE.value());
                     routeMappingHolder.setRouteMappingEntity(new RouteMappingEntity(Constant.GET.value(), url.getPath(), fullMethodPath));
-                }
-            }
-            else if(request.getRequestType().equalsIgnoreCase(Constant.GET_THREE_PATH_PARAM.value())){
-                fullMethodPath = Constant.METHOD_MAPPING_THREE_PARAM_CALL.value();
-                String modUrl = url.getPath().concat("/:paramOne").concat("/:paramTwo").concat("/:paramThree");
-                if (!routeMappingHolder.lookUp(Constant.GET.value(), modUrl)) {
-                    FileUtils.appendInFile(Constant.GET.value() + Constant.TAB.repeat(2) + modUrl + Constant.TAB.repeat(4) + fullMethodPath, Constant.FILE_ROUTE.value());
-                    routeMappingHolder.setRouteMappingEntity(new RouteMappingEntity(Constant.GET.value(), modUrl, fullMethodPath));
                 }
             }
             else if(request.getRequestType().equalsIgnoreCase(Constant.POST.value())){

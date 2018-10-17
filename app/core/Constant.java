@@ -19,7 +19,6 @@ public enum Constant {
     GET("GET"),
     PUT("PUT"),
     DELETE("DELETE"),
-    GET_THREE_PATH_PARAM("GET3P"),
 
     /****** HTTP STATUS CODES **********/
     STATUS_OK("200"),
@@ -29,8 +28,12 @@ public enum Constant {
     /****** METHOD MAPPING CONSTANTS **********/
     METHOD_MAPPING_GET_CALL("controllers.MockedAPIController.getMappedResponseForGetCall()"),
     METHOD_MAPPING_POST_CALL("controllers.MockedAPIController.getMappedResponseForPostCall()"),
-    METHOD_MAPPING_THREE_PARAM_CALL("controllers.MockedAPIController.getMappedResponseForThreePathParamCall(paramOne, paramTwo, paramThree)"),
-
+    METHOD_MAPPING_ONE_PARAM_GET_CALL("controllers.MockedAPIController.getMappedResponseForOnePathParamGetCall(var1)"),
+    METHOD_MAPPING_TWO_PARAM_GET_CALL("controllers.MockedAPIController.getMappedResponseForTwoPathParamGetCall(var1, var2)"),
+    METHOD_MAPPING_THREE_PARAM_GET_CALL("controllers.MockedAPIController.getMappedResponseForThreePathParamGetCall(var1, var2, var3)"),
+    METHOD_MAPPING_ONE_PARAM_POST_CALL("controllers.MockedAPIController.getMappedResponseForOnePathParamPostCall(var1)"),
+    METHOD_MAPPING_TWO_PARAM_POST_CALL("controllers.MockedAPIController.getMappedResponseForTwoPathParamPostCall(var1, var2)"),
+    METHOD_MAPPING_THREE_PARAM_POST_CALL("controllers.MockedAPIController.getMappedResponseForThreePathParamPostCall(var1, var2, var3)"),
 
     /****** FILE PATH **********/
     FILE_SERIALIZE("target/mocker.container"),

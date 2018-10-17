@@ -22,21 +22,42 @@ public class MockedAPIController extends Controller {
     }
 
     public Result getMappedResponseForGetCall() {
-        RequestMappingHolder requestObject = RequestMappingHolder.getInstance();
-        ActionMappingEntity actionData = requestObject.getActionMappingEntity();
-        Debugger.console("Map : " + ResultMappingHolder.getInstance().toString());
-        Debugger.console("uri : " + actionData.getUri());
-        String[] response = ResultMappingHolder.getInstance().getResultMapping(actionData);
-        if (response == null) {
-            MockResponse mockResponse = new MockResponse("No Constant mapped to URI.", null, actionData.getUri(), actionData.getHeaders());
-            return notFound(Json.toJson(mockResponse));
-        }
-        return status(Integer.parseInt(response[0]), response[1]).as(Constant.APPLICATION_JSON.value());
+        return getCall();
+    }
+
+    public Result getMappedResponseForOnePathParamGetCall(String var1) {
+        return getCall();
+    }
+
+    public Result getMappedResponseForTwoPathParamGetCall(String var1, String var2) {
+        return getCall();
+    }
+
+    public Result getMappedResponseForThreePathParamGetCall(String var1, String var2, String var3) {
+        return getCall();
     }
 
     public Result getMappedResponseForPostCall() {
+        return postCall();
+    }
+
+    public Result getMappedResponseForOnePathParamPostCall(String var1) {
+        return postCall();
+    }
+
+    public Result getMappedResponseForTwoPathParamPostCall(String var1, String var2) {
+        return postCall();
+    }
+
+    public Result getMappedResponseForThreePathParamPostCall(String var1, String var2, String var3) {
+        return postCall();
+    }
+
+    private Result getCall(){
         RequestMappingHolder requestObject = RequestMappingHolder.getInstance();
         ActionMappingEntity actionData = requestObject.getActionMappingEntity();
+        Debugger.console("Map : " + ResultMappingHolder.getInstance().toString());
+        Debugger.console("uri : " + actionData.getUri());
         String[] response = ResultMappingHolder.getInstance().getResultMapping(actionData);
         if (response == null) {
             MockResponse mockResponse = new MockResponse("No Constant mapped to URI.", null, actionData.getUri(), actionData.getHeaders());
@@ -45,11 +66,9 @@ public class MockedAPIController extends Controller {
         return status(Integer.parseInt(response[0]), response[1]).as(Constant.APPLICATION_JSON.value());
     }
 
-    public Result getMappedResponseForThreePathParamCall(String paramOne, String paramTwo, String paramThree) {
+    private Result postCall(){
         RequestMappingHolder requestObject = RequestMappingHolder.getInstance();
         ActionMappingEntity actionData = requestObject.getActionMappingEntity();
-        Debugger.console("Map : " + ResultMappingHolder.getInstance().toString());
-        Debugger.console("uri : " + actionData.getUri());
         String[] response = ResultMappingHolder.getInstance().getResultMapping(actionData);
         if (response == null) {
             MockResponse mockResponse = new MockResponse("No Constant mapped to URI.", null, actionData.getUri(), actionData.getHeaders());
