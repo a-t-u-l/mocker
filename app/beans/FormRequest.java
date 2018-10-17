@@ -11,7 +11,8 @@ public class FormRequest {
     private String requestType=""; //GET,POST
     private String URL ="";
     private Map<String,String> queryParams= new HashMap<>();
-    private Map<String,String> headers= new HashMap<>();
+    private Map<String,String []> headers= new HashMap<>();
+    private String headerString;
     private String requestBody="";
     private String responseBody="";
     private int responseStatusCode =200;
@@ -42,7 +43,7 @@ public class FormRequest {
         this.responseStatusCode = responseStatusCode;
     }
 
-    public FormRequest(String requestType, String URL, Map<String, String> queryParams, Map<String, String> headers, String requestBody, String responseBody, int responseStatusCode) {
+    public FormRequest(String requestType, String URL, Map<String, String> queryParams, Map<String, String []> headers, String requestBody, String responseBody, int responseStatusCode) {
         this.requestType = requestType;
         this.URL = URL;
         this.queryParams = queryParams;
@@ -76,12 +77,32 @@ public class FormRequest {
         this.queryParams = queryParams;
     }
 
-    public Map<String, String> getHeaders() {
+    public Map<String, String []> getHeaders() {
         return headers;
     }
 
-    public void setHeaders(Map<String, String> headers) {
+    public void setHeaders(Map<String, String []> headers) {
         this.headers = headers;
+    }
+
+    public String getHeaderString() {
+        return headerString;
+    }
+
+    public void setHeaderString(String headerString) {
+        this.headerString = headerString;
+        if(headers==null)
+            headers = new HashMap<>();
+        if(headerString!=null) {
+            String[] headerRows = headerString.split("\\r?\\n");
+            for (String headerPair : headerRows) {
+                String[] headerData = headerPair.split(":");
+                if (headerData.length == 2) {
+                    String [] headerValues = headerData[1].split(",");
+                    headers.put(headerData[0].trim(), headerValues);
+                }
+            }
+        }
     }
 
     public String getRequestBody() {

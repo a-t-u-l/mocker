@@ -11,9 +11,14 @@
         placeholder = "Mock API Path")
 
     @bootstrap3.textarea(mockRequest("requestBody"),
+    rows = "6",
+    label = "Request Body",
+    placeholder = "Request JSON")
+
+    @bootstrap3.textarea(mockRequest("headerString"),
         rows = "6",
-        label = "Request Body",
-        placeholder = "Request JSON")
+        label = "Headers",
+        placeholder = "Define your headers as key : value; use new line for additional headers")
 
     @bootstrap3.text(mockRequest("responseStatusCode"),
         label = "CODE",

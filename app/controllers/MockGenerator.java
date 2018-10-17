@@ -1,9 +1,6 @@
 package controllers;
 
-import beans.FormRequest;
-import beans.MockRequest;
-import beans.MockResponse;
-import beans.RouteMappingEntity;
+import beans.*;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
@@ -59,10 +56,11 @@ public class MockGenerator extends Controller {
             return redirect(Constant.PATH_GENERATOR.value());
         }
         Debugger.console("Generate Mock From Form block ... ");
-        Result result = generate(mockRequest);
-        if (result.status() == Constant.STATUS_OK.asInteger())
-            flash(Constant.SUCCESS.value(), "Successfully generated the mock API.");
-        else if (result.status() == Constant.STATUS_CONFLICT.asInteger())
+        GeneratorResponse response = generate(mockRequest);
+        Result result = response.getResult();
+        if (result.status() == Constant.STATUS_OK.asInteger()) {
+            flash(Constant.SUCCESS.value(), "Successfully generated the mock API. Use following mockId : " + response.getMockId());
+        }else if (result.status() == Constant.STATUS_CONFLICT.asInteger())
             flash(Constant.CONFLICT.value(), "Mock API Already Exist.");
         else
             flash(Constant.ERROR.value(), "Failed to generate the mock API.");
@@ -113,6 +111,7 @@ public class MockGenerator extends Controller {
         } catch (IOException e) {
             throw new IOException("Please validate response JSON.");
         }
+        mockRequest.setHeaders(formRequest.getHeaders());
         mockRequest.setResponseBody(responseNode.toString());
         mockRequest.setResponseStatusCode(formRequest.getResponseStatusCode());
         return mockRequest;
@@ -134,10 +133,10 @@ public class MockGenerator extends Controller {
     //TODO: Move String mappings to a interface or an ENUM
     public Result generateMock() {
         MockRequest request = GSON.fromJson(request().body().asJson().toString(), MockRequest.class);
-        return generate(request);
+        return generate(request).getResult();
     }
 
-    private Result generate(MockRequest request) {
+    private GeneratorResponse generate(MockRequest request) {
         URLMaker url = new URLMaker(request);
         String body = request.getRequestBody().replace("\\", "");
         ResultMappingHolder mappingHolder = ResultMappingHolder.getInstance();
@@ -147,20 +146,32 @@ public class MockGenerator extends Controller {
             if (request.getRequestType().equalsIgnoreCase(Constant.GET.value())) {
                 fullMethodPath = Constant.METHOD_MAPPING_GET_CALL.value();
                 if (!routeMappingHolder.lookUp(Constant.GET.value(), url.getPath())) {
-                    FileUtils.appendInFile(request.getRequestType() + Constant.TAB.repeat(2) + url.getPath() + Constant.TAB.repeat(4) + fullMethodPath, Constant.FILE_ROUTE.value());
+                    FileUtils.appendInFile(Constant.GET.value() + Constant.TAB.repeat(2) + url.getPath() + Constant.TAB.repeat(4) + fullMethodPath, Constant.FILE_ROUTE.value());
                     routeMappingHolder.setRouteMappingEntity(new RouteMappingEntity(Constant.GET.value(), url.getPath(), fullMethodPath));
                 }
-            } else {
+            }
+            else if(request.getRequestType().equalsIgnoreCase(Constant.GET_THREE_PATH_PARAM.value())){
+                fullMethodPath = Constant.METHOD_MAPPING_THREE_PARAM_CALL.value();
+                String modUrl = url.getPath().concat("/:paramOne").concat("/:paramTwo").concat("/:paramThree");
+                if (!routeMappingHolder.lookUp(Constant.GET.value(), modUrl)) {
+                    FileUtils.appendInFile(Constant.GET.value() + Constant.TAB.repeat(2) + modUrl + Constant.TAB.repeat(4) + fullMethodPath, Constant.FILE_ROUTE.value());
+                    routeMappingHolder.setRouteMappingEntity(new RouteMappingEntity(Constant.GET.value(), modUrl, fullMethodPath));
+                }
+            }
+            else if(request.getRequestType().equalsIgnoreCase(Constant.POST.value())){
                 fullMethodPath = Constant.METHOD_MAPPING_POST_CALL.value();
                 if (!routeMappingHolder.lookUp(Constant.POST.value(), url.getPath())) {
-                    FileUtils.appendInFile(request.getRequestType() + Constant.TAB.repeat(2) + url.getPath() + Constant.TAB.repeat(4) + fullMethodPath, Constant.FILE_ROUTE.value());
+                    FileUtils.appendInFile(Constant.POST.value() + Constant.TAB.repeat(2) + url.getPath() + Constant.TAB.repeat(4) + fullMethodPath, Constant.FILE_ROUTE.value());
                     routeMappingHolder.setRouteMappingEntity(new RouteMappingEntity(Constant.POST.value(), url.getPath(), fullMethodPath));
                 }
             }
+            else{
+                throw new IOException("Not a valid request type : "+request.getRequestType());
+            }
         } catch (IOException e) {
             e.printStackTrace();
-            MockResponse response = new MockResponse("Error while writing in routes", false);
-            return internalServerError(Json.toJson(response));
+            MockResponse response = new MockResponse(e.getMessage(), false);
+            return new GeneratorResponse(null,internalServerError(Json.toJson(response)));
         }
         String mockId;
         if (request.getRequestType().equalsIgnoreCase(Constant.POST.value())) {
@@ -168,7 +179,7 @@ public class MockGenerator extends Controller {
             mockId = mappingHolder.mappingExists(request);
             if (mockId != null) {
                 MockResponse response = new MockResponse("Mapping Already exist. Use following identifier to access your mocked API", false, mockId, url.getUri(), mappingHolder.getHeadersForMockId(mockId), body);
-                return status(Constant.STATUS_CONFLICT.asInteger(), Json.toJson(response));
+                return new GeneratorResponse( null, status(Constant.STATUS_CONFLICT.asInteger(), Json.toJson(response)));
             } else {
                 if (request.getHeaders() != null && !request.getHeaders().isEmpty())
                     mockId = mappingHolder.setResultMapping(url.getUri(), body, request.getHeaders(), String.valueOf(request.getResponseStatusCode()), request.getResponseBody());
@@ -181,7 +192,7 @@ public class MockGenerator extends Controller {
             if (mockId != null) {
                 Debugger.console(" mapping exist!!");
                 MockResponse response = new MockResponse("Mapping Already exist. Use following identifier to access your mocked API", false, mockId, url.getUri(), mappingHolder.getHeadersForMockId(mockId), body);
-                return status(Constant.STATUS_CONFLICT.asInteger(), Json.toJson(response));
+                return new GeneratorResponse(null,status(Constant.STATUS_CONFLICT.asInteger(), Json.toJson(response)));
             } else {
                 Debugger.console(" mapping doesn't exist. Creating new mapping ...");
                 if (request.getHeaders() != null && !request.getHeaders().isEmpty())
@@ -195,7 +206,7 @@ public class MockGenerator extends Controller {
         Debugger.console("Serializing value :\n" + object.toString());
         serializeResult(filename, object);
         MockResponse response = new MockResponse("Successfully generated the mock. Use following identifier to access your mocked API.", true, mockId, url.getUri(), mappingHolder.getHeadersForMockId(mockId), body);
-        return ok(Json.toJson(response));
+        return new GeneratorResponse( mockId,ok(Json.toJson(response)));
     }
 
     private void serializeResult(String filename, Object object) {

@@ -19,6 +19,7 @@ public enum Constant {
     GET("GET"),
     PUT("PUT"),
     DELETE("DELETE"),
+    GET_THREE_PATH_PARAM("GET3P"),
 
     /****** HTTP STATUS CODES **********/
     STATUS_OK("200"),
@@ -28,6 +29,8 @@ public enum Constant {
     /****** METHOD MAPPING CONSTANTS **********/
     METHOD_MAPPING_GET_CALL("controllers.MockedAPIController.getMappedResponseForGetCall()"),
     METHOD_MAPPING_POST_CALL("controllers.MockedAPIController.getMappedResponseForPostCall()"),
+    METHOD_MAPPING_THREE_PARAM_CALL("controllers.MockedAPIController.getMappedResponseForThreePathParamCall(paramOne, paramTwo, paramThree)"),
+
 
     /****** FILE PATH **********/
     FILE_SERIALIZE("target/mocker.container"),

@@ -73,7 +73,7 @@ public class MockRequest {
         return queryParams;
     }
 
-    public void setQueryParams(Map queryParams) {
+    public void setQueryParams(Map<String, String> queryParams) {
         this.queryParams = queryParams;
     }
 
@@ -81,7 +81,7 @@ public class MockRequest {
         return headers;
     }
 
-    public void setHeaders(Map headers) {
+    public void setHeaders(Map<String, String []> headers) {
         this.headers = headers;
     }
 

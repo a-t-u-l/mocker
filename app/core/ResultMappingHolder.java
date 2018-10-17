@@ -49,7 +49,7 @@ public class ResultMappingHolder implements java.io.Serializable {
             mockIds.add(mockId);
             resultKeyVsMockIdsMap.put(uri, mockIds);
         }
-        resultMap.put(uri, values);
+        resultMap.put(mockId, values);
         Debugger.console("key : " + uri + ", value : " + value + ", mockId : " + mockId);
         return mockId;
     }
@@ -67,7 +67,7 @@ public class ResultMappingHolder implements java.io.Serializable {
             resultKeyVsMockIdsMap.put(uri, mockIds);
         }
         headerStore.put(mockId, headers);
-        resultMap.put(uri, values);
+        resultMap.put(mockId, values);
         Debugger.console("key : " + uri + ", value : " + value + ", mockId : " + mockId);
         return mockId;
     }
@@ -84,7 +84,7 @@ public class ResultMappingHolder implements java.io.Serializable {
             mockIds.add(mockId);
             resultKeyVsMockIdsMap.put(key, mockIds);
         }
-        resultMap.put(key, values);
+        resultMap.put(mockId, values);
         Debugger.console("key : " + key + ", value : " + value + ", mockId : " + mockId);
         return mockId;
     }
@@ -102,7 +102,7 @@ public class ResultMappingHolder implements java.io.Serializable {
             resultKeyVsMockIdsMap.put(key, mockIds);
         }
         headerStore.put(mockId, headers);
-        resultMap.put(key, values);
+        resultMap.put(mockId, values);
         Debugger.console("key : " + key + ", value : " + value + ", mockId : " + mockId);
         return mockId;
     }
@@ -136,10 +136,6 @@ public class ResultMappingHolder implements java.io.Serializable {
         }
         Debugger.console("Does " + mockId + " exist in container? : " + mockIdVsResultKeyMap.containsKey(mockId));
         if (mockIdVsResultKeyMap.containsKey(mockId)) {
-            String body = "" + mappingEntity.getJsonBody();
-            if (body.equalsIgnoreCase("null"))
-                body = "";
-            String key = mappingEntity.getUri().concat(body);
             Debugger.console("Searching header store for mockId : " + mockId);
             if (headerStore.containsKey(mockId)) {
                 for (String headerKey : headerStore.get(mockId).keySet()) {
@@ -154,7 +150,7 @@ public class ResultMappingHolder implements java.io.Serializable {
             }
             Debugger.console("Searching result mapping equivalent to : " + mockIdVsResultKeyMap.get(mockId));
             if (mockIdVsResultKeyMap.containsKey(mockId)) {
-                String[] resultArr = resultMap.get(mockIdVsResultKeyMap.get(mockId));
+                String[] resultArr = resultMap.get(mockId);
                 Debugger.console("Result mapping found for : " + mockId);
                 return resultArr;
 
@@ -166,7 +162,7 @@ public class ResultMappingHolder implements java.io.Serializable {
 
     public String[] getResultForMockId(String mockId) {
         Debugger.console("Does " + mockId + " exist in container? : " + mockIdVsResultKeyMap.containsKey(mockId));
-        return resultMap.get(mockIdVsResultKeyMap.get(mockId));
+        return resultMap.get(mockId);
     }
 
     public String getUriForMockId(String mockId) {
@@ -216,7 +212,7 @@ public class ResultMappingHolder implements java.io.Serializable {
             str = str.concat("\t\"")
                     .concat(mockIdVsResultKeyMap.get(mockId))
                     .concat("\" : \"")
-                    .concat(Arrays.toString(resultMap.get(mockIdVsResultKeyMap.get(mockId))))
+                    .concat(Arrays.toString(resultMap.get(mockId)))
                     .concat("\",\n");
 
         }
