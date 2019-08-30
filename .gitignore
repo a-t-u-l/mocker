@@ -8,3 +8,5 @@ project/target
 /.project
 /.settings
 /RUNNING_PID
+.vscode
+.DS_Store

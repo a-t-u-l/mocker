@@ -112,6 +112,7 @@ public class Module extends AbstractModule {
             }
         } catch (IOException e) {
             e.printStackTrace();
+            Debugger.console("Caught exception while reading routes : " + e.getMessage());
         }
         Debugger.console("------------ROUTE MAPPING------------");
         List<RouteMappingEntity> routeMappingEntityList=routeMappingHolder.getRouteMappingEntityList();

@@ -3,18 +3,37 @@
 
 Mocker aims to be the hosted central server which can mock the behaviour of all the API's you might be consuming. It is based on java play framework and uses its hot reload capability to generate the mocks at the runtime. What it means is that once you host it on any server you get a fully functional API environment with capability to generate API mocks on fly.
 
-`Mocker uses scala version > 2.11.11` hence you need to have `sbt`  with same version to run.
+`Mocker uses scala version > 2.11.11` and `Java > 8` hence you need to have `sbt` and `java`  with same or greater version to run.
 
 **Steps to getting started:**
+
+1. clone this project
+```bash
+$ git clone git@github.com:a-t-u-l/mocker.git
 ```
-1. take a pull
+
 2. In terminal go to the root directory viz mocker
-2. execute command > sbt run
+```bash
+$ cd mocker/
 ```
 
-It should fetch all of the dependencies and start the server at _port 9001_. If you wish to change the port go to `build.sbt` and change the port.
+3. If you don't have sbt installed then install it. Refer this [guide](https://www.scala-sbt.org/download.html). On Mac you can use homebrew (On Mac, you might need xcode command line tools installled. Just follow the instructions in terminal) :
+```bash
+$ brew install sbt@1
+```
 
-`http://localhost:9001` would be the default location. Open this URL in your browser for UI form.
+4. execute command to get started. It takes sometime to install all dependencies : 
+
+```bash
+sbt run
+```
+
+5. It should fetch all of the dependencies and start the server at _port 9001_. If you wish to change the port go to `build.sbt` and change the port. then open following url in a browser :
+
+```
+http://localhost:9001
+``` 
+This would be the default location.
 
 You can generate mock either by using the UI form or by calling the mock generation API. Once generated you can use the specification you provided along with a unique mock id in header to invoke the API and get the specified response.
 

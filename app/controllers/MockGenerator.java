@@ -184,6 +184,7 @@ public class MockGenerator extends Controller {
             }
         } catch (IOException e) {
             e.printStackTrace();
+            Debugger.console("got exception while writing to routes : " + e.getMessage());
             MockResponse response = new MockResponse(e.getMessage(), false);
             return new GeneratorResponse(null,internalServerError(Json.toJson(response)));
         }
@@ -232,6 +233,7 @@ public class MockGenerator extends Controller {
             file.close();
             Debugger.console("Object has been serialized");
         } catch (IOException ex) {
+            ex.printStackTrace();
             Debugger.console("IOException is caught");
         }
     }
